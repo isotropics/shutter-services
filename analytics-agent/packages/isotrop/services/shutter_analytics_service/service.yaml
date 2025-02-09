@@ -136,14 +136,6 @@ extra:
         api_key: ${API_KEY:str:0x0000000000000000000000000000000000000000}
         wait_time: ${WAIT_TIME:int:60}
 ---
-public_id: valory/abci:0.1.0
-type: connection
-config:
-  target_skill_id: isotrop/shutter_analytics_agent:0.1.0
-  host: ${str:localhost}
-  port: ${int:26658}
-  use_tendermint: ${bool:false}
----
 public_id: valory/ledger:0.19.0
 type: connection
 config:

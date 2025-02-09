@@ -22,7 +22,7 @@ autonomy push-all
 autonomy fetch --local --service isotrop/shutter_analytics_service && cd shutter_analytics_service
 
 # Build the image
-autonomy init --reset --author author --remote --ipfs --ipfs-node "/dns/registry.autonolas.tech/tcp/443/https"
+autonomy init --reset --author isotrop --remote --ipfs --ipfs-node "/dns/registry.autonolas.tech/tcp/443/https"
 autonomy build-image
 
 # Copy .env file
