@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Register</title>
+        <link rel="stylesheet" href="styles.css">
+        <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+        <style>
+            body {
+                background: linear-gradient(135deg, #667eea, #764ba2);
+                height: 100vh;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-family: 'Poppins', sans-serif;
+                margin: 0;
+                overflow: hidden;
+            }
+    
+            .container {
+                background: rgba(255, 255, 255, 0.2);
+                padding: 30px;
+                border-radius: 10px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+                backdrop-filter: blur(10px);
+                text-align: center;
+                width: 350px;
+                animation: fadeIn 1s ease-in-out;
+                position: relative;
+            }
+    
+            .title {
+                color: white;
+                margin-bottom: 20px;
+            }
+    
+            form {
+                display: flex;
+                flex-direction: column;
+            }
+    
+            .input-box {
+                position: relative;
+                margin-bottom: 15px;
+                width: 100%;
+            }
+    
+            .input-box input {
+                width: calc(100% - 40px);
+                padding: 12px;
+                padding-left: 40px;
+                border: none;
+                border-radius: 5px;
+                outline: none;
+                font-size: 16px;
+                box-sizing: border-box;
+            }
+    
+            .input-box i {
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                color: gray;
+            }
+    
+            button {
+                background: #ff7eb3;
+                color: white;
+                border: none;
+                padding: 12px;
+                border-radius: 5px;
+                font-size: 16px;
+                cursor: pointer;
+                transition: background 0.3s;
+                box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            }
+    
+            button:hover {
+                background: #ff3e80;
+            }
+    
+            p {
+                color: white;
+                margin-top: 15px;
+            }
+    
+            p a {
+                color: #ffeb3b;
+                text-decoration: none;
+            }
+    
+            p a:hover {
+                text-decoration: underline;
+            }
+    
+            .message {
+                color: white;
+                margin-top: 10px;
+                font-size: 14px;
+                display: none;
+            }
+    
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: scale(0.9);
+                }
+                to {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+    
+            .floating-icons {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                pointer-events: none;
+            }
+    
+            .floating-icons i {
+                position: absolute;
+                color: rgba(255, 255, 255, 0.3);
+                font-size: 20px;
+                animation: float 5s infinite alternate ease-in-out;
+            }
+    
+            @keyframes float {
+                0% { transform: translateY(0px); }
+                100% { transform: translateY(-20px); }
+            }
+        </style>
+    </head>
+
+<body>
+    <div class="floating-icons">
+        <i class="fas fa-star" style="top: 10%; left: 15%;"></i>
+        <i class="fas fa-heart" style="top: 50%; left: 80%;"></i>
+        <i class="fas fa-bell" style="top: 80%; left: 30%;"></i>
+    </div>
+    <div class="container">
+        <h1 class="title">Register</h1>
+        <form id="registerForm">
+            <div class="input-box">
+                <i class="fas fa-user"></i>
+                <input type="text" id="username" placeholder="Username" required>
+            </div>
+            <div class="input-box">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="email" placeholder="Email" required>
+            </div>
+            <div class="input-box">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
+            <div class="input-box">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="confirmPassword" placeholder="Confirm Password" required>
+            </div>
+            <button type="submit">Register</button>
+            <p class="message" id="message"></p>
+        </form>
+        <p>Already have an account? <a href="login.html">Login</a></p>
+    </div>
+
+    <script>
+        document.getElementById("registerForm").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById("username").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+            const messageElement = document.getElementById("message");
+
+            messageElement.style.display = "none";
+            messageElement.textContent = "";
+
+            if (!username || !email || !password || !confirmPassword) {
+                showMessage("All fields are required!", "red");
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                showMessage("Passwords do not match!", "red");
+                return;
+            }
+
+            try {
+                const response = await fetch("http://localhost:5000/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ username, email, password })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.error || "Registration failed!");
+                }
+
+                // Store JWT token
+                localStorage.setItem("token", data.token);
+
+                showMessage("Registration successful! Redirecting...", "green");
+                setTimeout(() => window.location.href = "login.html", 1500);
+
+            } catch (error) {
+                showMessage("Error: " + error.message, "red");
+            }
+        });
+
+        function showMessage(text, color) {
+            const messageElement = document.getElementById("message");
+            messageElement.textContent = text;
+            messageElement.style.color = color;
+            messageElement.style.display = "block";
+        }
+    </script>
+</body>
+</html>
