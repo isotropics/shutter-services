@@ -99,5 +99,7 @@
 
 
 Note: 
-To run single agent pls use run_agent.sh
-To run multiple agent use run_service.sh and change the service config file accordingly (packages/isotrop/services/shutter_analytics_service/service.yaml)
+```
+- To run single agent pls use run_agent.sh
+- To run multiple agent use run_service.sh and change the service config file accordingly (packages/isotrop/services/shutter_analytics_service/service.yaml)
+ ```
