@@ -1,0 +1,20 @@
+alphabet_in:
+  - DONE
+  - ERROR
+  - ROUND_TIMEOUT
+  - WAIT_TIMEOUT
+default_start_state: CollectionRound
+final_states: []
+label: ShutterAnalyticsAbciApp
+start_states:
+  - CollectionRound
+states:
+  - CollectionRound
+  - ErrorRound
+  - WaitRound
+transition_func:
+    (CollectionRound, DONE): WaitRound
+    (CollectionRound, ERROR): ErrorRound
+    (WaitRound, WAIT_TIMEOUT): CollectionRound
+    (ErrorRound, ROUND_TIMEOUT): CollectionRound
+    (ErrorRound, WAIT_TIMEOUT): CollectionRound

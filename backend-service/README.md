@@ -1,1 +1,0 @@
-# shutter-backend-service
