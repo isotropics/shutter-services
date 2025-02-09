@@ -6,14 +6,14 @@ description: The scaffold skill is a scaffold for your own skill implementation.
 license: Apache-2.0
 aea_version: '>=1.0.0, <2.0.0'
 fingerprint:
-  __init__.py: bafybeicbh77lk47volijkudme6xagog2dvglye3yjveswa5khj2uwawadu
-  behaviours.py: bafybeibtonmkjkmn6cxk4lka3gcvvuu4w7iuwi6mqc55u7sinkgb6ebxie
-  dialogues.py: bafybeid2te5xmjkzz6sr2ibimu7qcn6yjcuau5ebksmvazvr6jwiit4vv4
-  fsm_specification.yaml: bafybeiaqsnubqqkft2vmkrjnd2kgg5xhalwju4v7w2r2uperhvbvdewhrm
-  handlers.py: bafybeihevcfjoqinyiykyf6rpo4x64vt6u7ozu6gdl7edxxycx7oxgpple
-  models.py: bafybeifiz7s5yy3scccyuyfwjtadlpjcswzqqrcr4xtljxiva7e5xx6it4
-  payloads.py: bafybeibzfq6whhoozzdaesvmoaqelartrip5ghbqlja7dfhcry3dmnbesm
-  rounds.py: bafybeie34txpi6cxitzdlnbqwaljcv7lws2xt2lxtlynwhkjwgqpig464m
+  __init__.py: bafybeiaij3g6mgz4s5nx5moj4453tvuk53gokc7lkmrv6n6fznj64yafvi
+  behaviours.py: bafybeihn5pkvt7oor75irfznnhlinpfftx6nymnhxgozy25okndaiuggea
+  dialogues.py: bafybeihrsd4ea7nw3vfh4qdocujqvfzae4abqypl6cjql53wj4n6n3kdgq
+  fsm_specification.yaml: bafybeiaz2j46nmo4mdmqttlcirwx5cejvdzpyqiikwvckv6r3zwpngewwi
+  handlers.py: bafybeieaswhmevuqrxsfbkyri7et5jewuzy7efzshpzwq4apsvtjrafv7m
+  models.py: bafybeicgj54rolawwrain5r2rcad7ntozd5y3jhzbxfucnpdlysszrchki
+  payloads.py: bafybeiecaii25c7t7xra3hacdalxt7cs2gbl3hjzqsh52oh676sqhsm6xe
+  rounds.py: bafybeihnrrxz55f5o5frym5balj6tvrt6jjnnwz6hhbw4vhj4rarlymu5e
 fingerprint_ignore_patterns: []
 connections: []
 contracts: []
@@ -129,6 +129,7 @@ models:
       log_path: /logs
       base_url: http://172.24.80.1:5000/logs
       api_key: 4cae1b737e343286c66384e3a0f269ea3ae0111ac1dfdc380e1ba1238ef6a879
+      wait_time: 3600
     class_name: IsotropParams
   requests:
     args: {}

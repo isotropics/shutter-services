@@ -22,7 +22,7 @@ protocols:
 skills:
 - valory/abstract_abci:0.1.0:bafybeihu2bcgjk2tqjiq2zhk3uogtfszqn4osvdt7ho3fubdpdj4jgdfjm
 - valory/abstract_round_abci:0.1.0:bafybeibovsktd3uxur45nrcomq5shcn46cgxd5idmhxbmjhg32c5abyqim
-- isotrop/shutter_analytics_agent:0.1.0:bafybeiabjwha7zbqll32ixe2an4ykuk4x2jlbncukv3hlx5n6n5eoozuru
+- isotrop/shutter_analytics_agent:0.1.0:bafybeih4eyluugrat35hrvk2jcf6q3oshqtendrmt2n7rrzzs67qyfxcja
 default_ledger: ethereum
 required_ledgers:
 - ethereum
@@ -57,27 +57,6 @@ dependencies:
   open-aea-test-autonomy:
     version: ==0.12.1.post1
 default_connection: null
----
-public_id: isotrop/shutter_analytics_agent:0.1.0
-type: skill
-models:
-  benchmark_tool:
-    args:
-      log_dir: ${str:/benchmarks}
-  params:
-    args:
-      service_registry_address: ${str:null}
-      share_tm_config_on_startup: ${bool:false}
-      on_chain_service_id: ${int:null}
-      setup:
-        all_participants: ${list:["0x0000000000000000000000000000000000000000"]}
-        safe_contract_address: ${str:'0x0000000000000000000000000000000000000000'}
-        consensus_threshold: ${int:null}
-      tendermint_url: ${str:http://localhost:26657}
-      tendermint_com_url: ${str:http://localhost:8080}
-      log_path: ${str:/mnt/d/Olas/shutter-analytics-agent/shutter-mev/logs/}
-      base_url: ${str:http://172.24.80.1:5000/logs}
-      api_key: ${str:4cae1b737e343286c66384e3a0f269ea3ae0111ac1dfdc380e1ba1238ef6a879}
 ---
 public_id: valory/abci:0.1.0
 type: connection
@@ -126,3 +105,25 @@ cert_requests:
   public_key: ${str:02e741c62d706e1dcf6986bf37fa74b98681bc32669623ac9ee6ff72488d4f59e8}
   save_path: .certs/acn_cosmos_9006.txt
 is_abstract: true
+---
+public_id: isotrop/shutter_analytics_agent:0.1.0
+type: skill
+models:
+  benchmark_tool:
+    args:
+      log_dir: ${str:/benchmarks}
+  params:
+    args:
+      service_registry_address: ${str:null}
+      share_tm_config_on_startup: ${bool:false}
+      on_chain_service_id: ${int:null}
+      setup:
+        all_participants: ${list:["0x0000000000000000000000000000000000000000"]}
+        safe_contract_address: ${str:'0x0000000000000000000000000000000000000000'}
+        consensus_threshold: ${int:null}
+      tendermint_url: ${str:http://localhost:26657}
+      tendermint_com_url: ${str:http://localhost:8080}
+      log_path: ${str:/Users/test/shutter_final_version/shutter-services/analytics-agent/logs/}
+      base_url: ${str:http://172.24.80.1:5000/logs}
+      api_key: ${str:4cae1b737e343286c66384e3a0f269ea3ae0111ac1dfdc380e1ba1238ef6a879}
+      wait_time: ${int:0}

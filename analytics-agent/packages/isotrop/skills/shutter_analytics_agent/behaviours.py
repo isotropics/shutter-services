@@ -79,7 +79,7 @@ class CollectionBehaviour(ShutterAnalyticsBaseBehaviour):
         
     def get_log_filename(self) -> str:
         """Generate the log filename for one hour back."""
-        logs_dir = self.params.log_path# Get logs directory from .env
+        logs_dir = self.params.log_path
 
         if not logs_dir:
             self.context.logger.error("LOG_PATH not set in the environment.")
@@ -87,11 +87,9 @@ class CollectionBehaviour(ShutterAnalyticsBaseBehaviour):
 
         now = datetime.now()
         current_hour = now.replace(minute=0, second=0, microsecond=0)
-
         one_hour_back = current_hour - timedelta(hours=1)
-
         log_filename = f"transactions_{one_hour_back.strftime('%Y-%m-%d_%H')}.log"
-
+        #check last hour log path
         log_path = os.path.join(logs_dir, log_filename)
         self.context.logger.info(f"Log path: {log_path}")
         return log_path
@@ -125,9 +123,10 @@ class CollectionBehaviour(ShutterAnalyticsBaseBehaviour):
             "Authorization": f"Bearer {api_key}",
             "Content-Type": "application/json"
         }
+        api_url = self.params.base_url + "/logs"
         
         try:
-            response = requests.post(self.params.base_url, json=log_data, headers=headers)
+            response = requests.post(api_url, json=log_data, headers=headers)
             if response.status_code == 201:
                 self.context.logger.info(f"Successfully sent log: {log_data}")
             else:
@@ -213,11 +212,11 @@ class WaitBehaviour(ShutterAnalyticsBaseBehaviour):
 
         with self.context.benchmark_tool.measure(self.behaviour_id).local():
             sender = self.context.agent_address
-            wait_message = "Entering wait state."
-            self.context.logger.info(wait_message)
+            waitTime = self.params.wait_time
             payload = WaitPayload(sender=sender)
-            #wait for 10 sec to go for new transcations
-            time.sleep(30)
+            self.context.logger.info("sleeping for "+str(waitTime)+ " sec before fetching another set of logs")
+            #wait for sec gave in env variable to fetch the logs again
+            time.sleep(waitTime)
         with self.context.benchmark_tool.measure(self.behaviour_id).consensus():
             yield from self.send_a2a_transaction(payload)
             yield from self.wait_until_round_end()
@@ -235,8 +234,6 @@ class ShutterAnalyticsRoundBehaviour(AbstractRoundBehaviour):
         ErrorBehaviour,
         WaitBehaviour
     ]
-
-
 
 
 

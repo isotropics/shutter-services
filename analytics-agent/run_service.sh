@@ -8,8 +8,14 @@ if test -d shutter_analytics_service; then
   sudo rm -r shutter_analytics_service
 fi
 
+# Remove empty directories to avoid wrong hashes
+find . -empty -type d -delete
+
 # Push packages and fetch service
 make clean
+
+# Ensure hashes are updated
+autonomy packages lock
 
 autonomy push-all
 

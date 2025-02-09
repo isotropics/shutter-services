@@ -1,35 +1,140 @@
 name: shutter_analytics_service
 author: isotrop
 version: 0.1.0
-description: A demonstration of a simple service
+description: A Analytics service which read logs from a directory and post into DB
+  through http
 aea_version: '>=1.0.0, <2.0.0'
 license: Apache-2.0
 fingerprint:
   README.md: bafybeifxoyvybijxyc3ifplzqthsd7fvozxvcd2kmfkxqf7gmcgt7olzza
 fingerprint_ignore_patterns: []
-agent: valory/shutter_analytics_agent:0.1.0
-number_of_agents: 1
-deployment: {}
+agent: isotrop/shutter_analytics_agent:0.1.0:bafybeicsrzzg4t4hfb4zqdlfgsyqi5ij63f3qv4qft2fjcbnwlmrz5jibe
+number_of_agents: 2
+deployment:
+  agent:
+    ports:
+      0:
+        8000: 8000
+      1:
+        8001: 8000
 ---
 public_id: isotrop/shutter_analytics_agent:0.1.0
 type: skill
-models:
-  benchmark_tool:
+extra:
+  params_args:
     args:
-      log_dir: ${str:/benchmarks}
-  params:
-    args:
-      service_registry_address: ${str:null}
-      share_tm_config_on_startup: ${bool:false}
-      on_chain_service_id: ${int:null}
-      setup:
-        all_participants: ${list:["0x0000000000000000000000000000000000000000"]}
-        safe_contract_address: ${str:'0x0000000000000000000000000000000000000000'}
-        consensus_threshold: ${int:null}
-      tendermint_url: ${str:http://localhost:26657}
-      tendermint_com_url: ${str:http://localhost:8080}
-      log_path: ${str:/mnt/d/workspace/shutter-analytics-agent/shutter-mev/logs/}
-      api: ${str:http://172.31.112.1:3000/logs}
+      setup: &id001
+        all_participants: ${ALL_PARTICIPANTS:list:[]}
+        consensus_threshold: null
+      genesis_config: &id002
+        genesis_time: '2022-09-26T00:00:00.000000000Z'
+        chain_id: chain-c4daS1
+        consensus_params:
+          block:
+            max_bytes: '22020096'
+            max_gas: '-1'
+            time_iota_ms: '1000'
+          evidence:
+            max_age_num_blocks: '100000'
+            max_age_duration: '172800000000000'
+            max_bytes: '1048576'
+          validator:
+            pub_key_types:
+            - ed25519
+          version: {}
+        voting_power: '10'
+0:
+  models:
+    benchmark_tool:
+      args:
+        log_dir: ${LOG_DIR:str:/logs}
+    params:
+      args:
+        setup: *id001
+        genesis_config: *id002
+        cleanup_history_depth: 1
+        cleanup_history_depth_current: null
+        drand_public_key: 868f005eb8e6e4ca0a47c8a77ceaa5309a47978a7c71bc5cce96366b5d7a569937c529eeda66c7293784a9402801af31
+        earliest_block_to_monitor: ${EARLIEST_BLOCK_TO_MONITOR:int:8053690}
+        keeper_timeout: 30.0
+        max_attempts: 10
+        max_healthcheck: 120
+        termination_sleep: ${TERMINATION_SLEEP:int:900}
+        reset_pause_duration: ${RESET_PAUSE_DURATION:int:300}
+        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
+        reset_tendermint_after: ${RESET_TENDERMINT_AFTER:int:30}
+        retry_attempts: 400
+        retry_timeout: 3
+        request_retry_delay: 1.0
+        request_timeout: 10.0
+        round_timeout_seconds: 30.0
+        service_id: analytics
+        service_registry_address: ${SERVICE_REGISTRY_ADDRESS:str:0x48b6af7B12C71f09e2fC8aF4855De4Ff54e775cA}
+        share_tm_config_on_startup: ${USE_ACN:bool:false}
+        sleep_time: 1
+        tendermint_check_sleep_delay: 3
+        tendermint_com_url: ${TENDERMINT_COM_URL:str:http://localhost:8080}
+        tendermint_max_retries: 5
+        tendermint_url: ${TENDERMINT_URL:str:http://localhost:26657}
+        tendermint_p2p_url: ${TENDERMINT_P2P_URL_0:str:learning_tm_0:26656}
+        tx_timeout: 10.0
+        use_termination: ${USE_TERMINATION:bool:false}
+        validate_timeout: 1205
+        service_endpoint_base: ${SERVICE_ENDPOINT_BASE:str:https://learning.autonolas.tech/}
+        multisend_batch_size: ${MULTISEND_BATCH_SIZE:int:5}
+        ipfs_address: ${IPFS_ADDRESS:str:https://gateway.autonolas.tech/ipfs/}
+        default_chain_id: ${DEFAULT_CHAIN_ID:str:gnosis}
+        termination_from_block: ${TERMINATION_FROM_BLOCK:int:34088325}
+        log_path: ${LOG_PATH:str:/test/logs}
+        base_url: ${BASE_URL:str:null}
+        api_key: ${API_KEY:str:0x0000000000000000000000000000000000000000}
+        wait_time: ${WAIT_TIME:int:60}
+1:
+  models:
+    benchmark_tool:
+      args:
+        log_dir: ${LOG_DIR:str:/logs}
+    params:
+      args:
+        setup: *id001
+        genesis_config: *id002
+        cleanup_history_depth: 1
+        cleanup_history_depth_current: null
+        drand_public_key: 868f005eb8e6e4ca0a47c8a77ceaa5309a47978a7c71bc5cce96366b5d7a569937c529eeda66c7293784a9402801af31
+        earliest_block_to_monitor: ${EARLIEST_BLOCK_TO_MONITOR:int:8053690}
+        keeper_timeout: 30.0
+        max_attempts: 10
+        max_healthcheck: 120
+        termination_sleep: ${TERMINATION_SLEEP:int:900}
+        reset_pause_duration: ${RESET_PAUSE_DURATION:int:300}
+        on_chain_service_id: ${ON_CHAIN_SERVICE_ID:int:null}
+        reset_tendermint_after: ${RESET_TENDERMINT_AFTER:int:30}
+        retry_attempts: 400
+        retry_timeout: 3
+        request_retry_delay: 1.0
+        request_timeout: 10.0
+        round_timeout_seconds: 30.0
+        service_id: analytics
+        service_registry_address: ${SERVICE_REGISTRY_ADDRESS:str:0x48b6af7B12C71f09e2fC8aF4855De4Ff54e775cA}
+        share_tm_config_on_startup: ${USE_ACN:bool:false}
+        sleep_time: 1
+        tendermint_check_sleep_delay: 3
+        tendermint_com_url: ${TENDERMINT_COM_URL:str:http://localhost:8080}
+        tendermint_max_retries: 5
+        tendermint_url: ${TENDERMINT_URL:str:http://localhost:26657}
+        tendermint_p2p_url: ${TENDERMINT_P2P_URL_0:str:learning_tm_0:26656}
+        tx_timeout: 10.0
+        use_termination: ${USE_TERMINATION:bool:false}
+        validate_timeout: 1205
+        service_endpoint_base: ${SERVICE_ENDPOINT_BASE:str:https://learning.autonolas.tech/}
+        multisend_batch_size: ${MULTISEND_BATCH_SIZE:int:5}
+        ipfs_address: ${IPFS_ADDRESS:str:https://gateway.autonolas.tech/ipfs/}
+        default_chain_id: ${DEFAULT_CHAIN_ID:str:gnosis}
+        termination_from_block: ${TERMINATION_FROM_BLOCK:int:34088325}
+        log_path: ${LOG_PATH:str:/test/logs}
+        base_url: ${BASE_URL:str:null}
+        api_key: ${API_KEY:str:0x0000000000000000000000000000000000000000}
+        wait_time: ${WAIT_TIME:int:60}
 ---
 public_id: valory/abci:0.1.0
 type: connection

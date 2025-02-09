@@ -33,7 +33,6 @@ def main() -> None:
 
     with open(Path("shutter_analytics_agent", "aea-config.yaml"), "r", encoding="utf-8") as file:
         config = list(yaml.safe_load_all(file))
-
         # Params
         if os.getenv("ALL_PARTICIPANTS"):
             config[-1]["models"]["params"]["args"]["setup"][
@@ -45,10 +44,20 @@ def main() -> None:
                 "log_path"
             ] = f"${{str:{os.getenv('LOG_PATH')}}}"  # type: ignore
 
-        if os.getenv("API"):
+        if os.getenv("API_KEY"):
             config[-1]["models"]["params"]["args"][
-                "api"
-            ] = f"${{str:{os.getenv('API')}}}"  # type: ignore    
+                "api_key"
+            ] = f"${{str:{os.getenv('API_KEY')}}}"  # type: ignore 
+
+        if os.getenv("BASE_URL"):
+            config[-1]["models"]["params"]["args"][
+                "base_url"
+            ] = f"${{str:{os.getenv('BASE_URL')}}}"  # type: ignore   
+
+        if os.getenv("WAIT_TIME"):
+            config[-1]["models"]["params"]["args"][
+                "wait_time"
+            ] = f"${{int:{os.getenv('WAIT_TIME')}}}"  # type: ignore     
 
                 
     with open(Path("shutter_analytics_agent", "aea-config.yaml"), "w", encoding="utf-8") as file:

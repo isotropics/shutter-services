@@ -40,9 +40,10 @@ class IsotropParams(BaseParams):
 
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         """Initialize the parameters."""
-        self.log_path: str = self._ensure("log_path", kwargs, str)
-        self.base_url: str = self._ensure("base_url", kwargs, str)
-        self.api_key: str=self._ensure("api_key", kwargs, str)
+        self.log_path:str = self._ensure("log_path", kwargs, str)
+        self.base_url:str = self._ensure("base_url", kwargs, str)
+        self.api_key:str  = self._ensure("api_key", kwargs, str)
+        self.wait_time:int= self._ensure("wait_time", kwargs, int)
         super().__init__(*args, **kwargs)
 
 

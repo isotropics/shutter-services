@@ -1,9 +1,9 @@
 {
     "dev": {
         "contract/valory/erc20/0.1.0": "bafybeiekbfeenjhbibefgrylnft6y3arilfp7gzv7byaijjry5pwhkgh2m",
-        "skill/isotrop/shutter_analytics_agent/0.1.0": "bafybeiabjwha7zbqll32ixe2an4ykuk4x2jlbncukv3hlx5n6n5eoozuru",
-        "agent/isotrop/shutter_analytics_agent/0.1.0": "bafybeidokvqbit6psddtxmsgdsy7co6bh7p6bpab72t4gmp35g4mciqznm",
-        "service/isotrop/shutter_analytics_service/0.1.0": "bafybeib53rgwzg4yx3jkqnzngkelhoerbjqnbxlfid7opm6o36zdk6pkgm"
+        "skill/isotrop/shutter_analytics_agent/0.1.0": "bafybeih4eyluugrat35hrvk2jcf6q3oshqtendrmt2n7rrzzs67qyfxcja",
+        "agent/isotrop/shutter_analytics_agent/0.1.0": "bafybeicsrzzg4t4hfb4zqdlfgsyqi5ij63f3qv4qft2fjcbnwlmrz5jibe",
+        "service/isotrop/shutter_analytics_service/0.1.0": "bafybeifptwkclpn5vb3hrwbzwew7p3o3t2g6hpok5riixdogapwrgjs3ju"
     },
     "third_party": {
         "protocol/valory/http/1.0.0": "bafybeifugzl63kfdmwrxwphrnrhj7bn6iruxieme3a4ntzejf6kmtuwmae",
