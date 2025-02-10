@@ -76,8 +76,8 @@ const Dashboard = () => {
             {/* Main Container */}
             <Container className="dashboard-container">
                 <div className="header-section">
-                    <h2 className="dashboard-title"><FaDatabase /> MEV Logs</h2>
-                    <Button className="refresh-btn" onClick={fetchLogs}><FaSync /> Refresh Logs</Button>
+                    <h2 className="dashboard-title"><FaDatabase /> MEV Details</h2>
+                    <Button className="refresh-btn" onClick={fetchLogs}><FaSync /> Refresh Data</Button>
                 </div>
 
                 {/* Statistics Cards */}

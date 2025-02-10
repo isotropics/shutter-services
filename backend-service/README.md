@@ -41,7 +41,7 @@ This is a Node.js backend for handling user authentication and MEV (Maximal Extr
 1️⃣ Clone the repository:
 
 ```
-git clone https://github.com/isotropics/shutter-services
+git clone https://github.com/isotropics/shutter-services.git
 cd backend-service
 ```
 2️⃣ Install dependencies:

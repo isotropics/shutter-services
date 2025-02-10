@@ -25,8 +25,8 @@ FontAwesome Icons
 1. Clone the repository:
 
 ```
-git clone https://github.com/your-repo/mev-dashboard.git
-cd mev-dashboard
+git clone https://github.com/isotropics/shutter-services.git
+cd frontend-service
 ```
 
 ## Install dependencies:
