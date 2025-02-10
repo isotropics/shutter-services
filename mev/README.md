@@ -21,8 +21,8 @@ To get started with **Shutter MEV**, you'll need to set up your environment and 
 Clone the repository to your local machine:
 
 ```bash
-git clone https://github.com/isotropics/shutter-mev.git
-cd shutter-mev
+git clone https://github.com/isotropics/shutter-services.git
+cd mev
 ```
 
 ### 2. Install Dependencies

@@ -1,11 +1,12 @@
-Node.js Backend for MEV Logging
+# Backend(Node.js) for MEV Logging
 
-📌 Project Description
+### 📌 Project Description
 
 This is a Node.js backend for handling user authentication and MEV (Maximal Extractable Value) transaction logs. It uses PostgreSQL for database management and follows a modular architecture for maintainability.
 
-📁 Project Structure
-'''
+### 📁 Project Structure
+
+```
 /Backend-services
 │── /config
 │   ├── db.js          # Database configuration
@@ -24,33 +25,32 @@ This is a Node.js backend for handling user authentication and MEV (Maximal Extr
 │── server.js         # Main server file
 │── .env              # Environment variables file
 │── package.json      # Dependencies and scripts
-'''
+```
 
-🛠 Technologies Used
+### 🛠 Technologies Used
 
-Node.js - Backend framework
-Express.js - Server framework
-PostgreSQL - Database
-JWT - Token-based authentication
-bcrypt - Password hashing
-Helmet & CORS - Security enhancements
+- Node.js - Backend framework
+- Express.js - Server framework
+- PostgreSQL - Database
+- JWT - Token-based authentication
+- bcrypt - Password hashing
+- Helmet & CORS - Security enhancements
 
-📦 Installation Guide
+### 📦 Installation Guide
 
 1️⃣ Clone the repository:
-'''
-git clone https://github.com/.git
-cd Backend-services
-'''
+
+```
+git clone https://github.com/isotropics/shutter-services.git
+cd backend-service
+```
 2️⃣ Install dependencies:
-'''
+```
 npm install
-'''
+```
 3️⃣ Setup Environment Variables:
-'''
-Create a .env file in the root directory and add:
-'''
-'''
+Create a .env file in the root directory and add below attributes with your values:
+```
 PORT=5000
 API_KEY=your_api_key_here
 JWT_SECRET=your_jwt_secret_here
@@ -59,29 +59,31 @@ DB_HOST=your_db_host
 DB_NAME=your_db_name
 DB_PASS=your_db_password
 DB_PORT=5432
-'''
+```
 4️⃣ Start the server:
-'''
+```
 npm server.js
-'''
-Server runs on http://localhost:5000
+```
+#### Server runs on http://localhost:5000
 
-🔐 API Endpoints
+### 🔐 API Endpoints
 
-Authentication
-'''
-Method  Endpoint    Description
+#### Authentication
+|   Method  |  Endpoint  |            Description           |
+|-----------|------------|----------------------------------|
+|    POST   |  /register |  Register a new user             |
+|    POST   |   /login   |  User login (returns JWT token)  |
+#### MEV Logs (Requires API Key Authentication)
+|   Method  |  Endpoint  |            Description           |
+|-----------|------------|----------------------------------|
+|    GET    |   /logs    |  Fetch all MEV logs              |
+|    POST   |   /logs    |  Add a new MEV log               |
 
-POST    /register   Register a new user
-POST    /login      User login (returns JWT token)
 
-MEV Logs (Requires API Key Authentication)
+### ✅ Features
 
-Method  Endpoint    Description
-
-GET     /logs       Fetch all MEV logs
-POST    /logs       Add a new MEV log
-'''
-✅ Features
-
-✔️ User authentication (JWT-based login & password hashing)✔️ API key-based authentication for secure access✔️ PostgreSQL database integration with automatic table creation✔️ Modular architecture for better maintainability✔️ Security enhancements with CORS & Helmet
+- ✔️ User authentication (JWT-based login & password hashing)
+- ✔️ API key-based authentication for secure access
+- ✔️ PostgreSQL database integration with automatic table creation
+- ✔️ Modular architecture for better maintainability
+- ✔️ Security enhancements with CORS & Helmet
