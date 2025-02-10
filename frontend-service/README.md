@@ -31,11 +31,11 @@ cd mev-dashboard
 
 ## Install dependencies:
 
-# Using npm
+- Using npm
 ```
 npm install
 ```
-# Using yarn
+- Using yarn
 ```
 yarn install
 ```
@@ -51,16 +51,16 @@ VITE_API_TOKEN=your_api_token
 
 ## Start the  server:
 
-# Using npm
+- Using npm
 ```
 npm start
 ```
-# Using yarn
+- Using yarn
 ```
 yarn start
 ```
 
-# Open the app in your browser at http://localhost:3000
+Open the app in your browser at http://localhost:3000
 
 ## API Endpoint
 
