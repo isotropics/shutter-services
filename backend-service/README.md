@@ -26,6 +26,7 @@ This is a Node.js backend for handling user authentication and MEV (Maximal Extr
 │── .env              # Environment variables file
 │── package.json      # Dependencies and scripts
 '''
+
 🛠 Technologies Used
 
 Node.js - Backend framework
@@ -39,15 +40,16 @@ Helmet & CORS - Security enhancements
 
 1️⃣ Clone the repository:
 
-git clone <repository_url>
+'''
+git clone https://github.com/isotropics/shutter-services
 cd Backend-services
-
+'''
 2️⃣ Install dependencies:
 '''
 npm install
 '''
 3️⃣ Setup Environment Variables:
-
+'''
 Create a .env file in the root directory and add:
 '''
 PORT=5000
@@ -60,15 +62,15 @@ DB_PASS=your_db_password
 DB_PORT=5432
 '''
 4️⃣ Start the server:
-
+'''
 npm server.js
-
+'''
 Server runs on http://localhost:5000
 
 🔐 API Endpoints
 
 Authentication
-
+'''
 Method  Endpoint    Description
 
 POST    /register   Register a new user
@@ -80,7 +82,7 @@ Method  Endpoint    Description
 
 GET     /logs       Fetch all MEV logs
 POST    /logs       Add a new MEV log
-
+'''
 ✅ Features
 
 ✔️ User authentication (JWT-based login & password hashing)✔️ API key-based authentication for secure access✔️ PostgreSQL database integration with automatic table creation✔️ Modular architecture for better maintainability✔️ Security enhancements with CORS & Helmet

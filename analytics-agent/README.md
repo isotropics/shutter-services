@@ -43,7 +43,7 @@
 
 ### Prepare the data
 
-1. Prepare a `keys.json` file containing wallet address and the private key for each of the  agents.
+1. Prepare a `keys.json` file containing wallet address and the private key for each of the  agents.You can generate as many as agents as per the need.Its mandatory to create at least 1.
 
     ```
     autonomy generate-key ethereum -n 1
@@ -69,7 +69,7 @@
 
 1. Verify that `ALL_PARTICIPANTS` in `.env` contains only 1 address.
 
-2. Run the agent:
+2. Run the single agent:
 
     ```
     bash run_agent.sh
@@ -83,7 +83,7 @@
     docker
     ```
 
-2. Verify that `ALL_PARTICIPANTS` in `.env` contains 4 addresses.
+2. Verify that `ALL_PARTICIPANTS` in `.env` contains no of agents addresses.
 
 3. Run the service:
 
@@ -98,3 +98,8 @@
     ```
 
 
+Note: 
+```
+- To run single agent pls use run_agent.sh
+- To run multiple agent use run_service.sh and change the service config file accordingly (packages/isotrop/services/shutter_analytics_service/service.yaml)
+ ```
