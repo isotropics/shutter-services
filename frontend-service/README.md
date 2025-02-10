@@ -24,47 +24,41 @@ FontAwesome Icons
 
 1. Clone the repository:
 
-'''
+```
 git clone https://github.com/your-repo/mev-dashboard.git
 cd mev-dashboard
-'''
+```
 
 ## Install dependencies:
 
 # Using npm
-
-'''
+```
 npm install
-'''
-
+```
 # Using yarn
-
-'''
+```
 yarn install
-'''
+```
 
 ## Set up environment variables:
 
 Create a .env file in the root directory and add:
 
-'''
+```
 VITE_API_TOKEN=your_api_token
-'''
+```
 
 
 ## Start the  server:
 
 # Using npm
-
-'''
+```
 npm start
-'''
-
+```
 # Using yarn
-
-'''
+```
 yarn start
-'''
+```
 
 # Open the app in your browser at http://localhost:3000
 
@@ -72,9 +66,9 @@ yarn start
 
 The application fetches logs from:
 
-'''
+```
 http://localhost:5000/logs
-'''
+```
 
 Ensure your backend is running and accessible.
 
