@@ -6,6 +6,7 @@ This is a Node.js backend for handling user authentication and MEV (Maximal Extr
 
 📁 Project Structure
 
+'''
 /Backend-services
 │── /config
 │   ├── db.js          # Database configuration
@@ -24,7 +25,7 @@ This is a Node.js backend for handling user authentication and MEV (Maximal Extr
 │── server.js         # Main server file
 │── .env              # Environment variables file
 │── package.json      # Dependencies and scripts
-
+'''
 🛠 Technologies Used
 
 Node.js - Backend framework
@@ -38,17 +39,17 @@ Helmet & CORS - Security enhancements
 
 1️⃣ Clone the repository:
 
-git clone https://github.com/.git
+git clone <repository_url>
 cd Backend-services
 
 2️⃣ Install dependencies:
-
+'''
 npm install
-
+'''
 3️⃣ Setup Environment Variables:
 
 Create a .env file in the root directory and add:
-
+'''
 PORT=5000
 API_KEY=your_api_key_here
 JWT_SECRET=your_jwt_secret_here
@@ -57,7 +58,7 @@ DB_HOST=your_db_host
 DB_NAME=your_db_name
 DB_PASS=your_db_password
 DB_PORT=5432
-
+'''
 4️⃣ Start the server:
 
 npm server.js
