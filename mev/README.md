@@ -1,6 +1,8 @@
 # Shutter MEV
 
-**Shutter MEV** is a token swap strategy automation script designed for the Gnosis forked mainnet network. It automates front-running, target swaps, and back-running strategies, logging transaction details every hour. The logs are managed in hourly files, and the script rotates the log files if they exceed **10MB** in size.
+**Shutter MEV** 
+This is a bespoke MEV Simulation agent developed outside the OLAS framework
+It is a token swap strategy automation script designed for the Gnosis forked mainnet network. It automates front-running, target swaps, and back-running strategies, logging transaction details every hour. The logs are managed in hourly files, and the script rotates the log files if they exceed **10MB** in size.
 
 ## Table of Contents
 
