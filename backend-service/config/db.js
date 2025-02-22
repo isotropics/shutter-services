@@ -24,9 +24,9 @@ const createTables = async () => {
       trans_id TEXT UNIQUE NOT NULL,
       mev_type TEXT NOT NULL,
       trade_amnt DECIMAL(10,2) NOT NULL,
-      swap_amnt DECIMAL(10,2) NOT NULL,
-      profit DECIMAL(10,6) NOT NULL,
-      loss DECIMAL(10,6) DEFAULT 0.000000
+      expected_amnt DECIMAL(10,2) NOT NULL,
+      profit_percentage DECIMAL(10,6) NOT NULL,
+      original_loss_percentage DECIMAL(10,6) DEFAULT 0.000000
     );`,
   ];
 
