@@ -14,32 +14,3 @@ This is a Node.js backend for handling user authentication and MEV (Maximal Extr
 # Frontend Service
 
 This is a React.js Frontend service for displaying  MEV (Maximal Extractable Value) transaction details.
-
-
-# Disclaimer
-
-This MEV Simulator and its component is an experimental project designed strictly for educational and research purposes. It demonstrates the mechanics of MEV (Maximal Extractable Value) in DeFi environments to help understand their impact and the importance of protective measures.
-
-## Important Notice
-
-- This project is FOR EDUCATIONAL PURPOSES ONLY
-- The code and documentation are experimental and should not be used in production
-- This simulator demonstrates potential vulnerabilities in DeFi transactions
-- We do not encourage or support any malicious use of MEV strategies
-- The authors and contributors assume NO RESPONSIBILITY for any misuse or consequences
-
-## Intended Use
-
-- Academic research
-- Educational demonstrations
-- Security awareness
-- Protocol testing in controlled environments
-- Understanding DeFi transaction mechanics
-
-## Limitations & Risks
-
-- Not audited for production use
-- May contain bugs or vulnerabilities
-- No guarantee of accuracy or reliability
-- Should not be used for actual trading or deployment
-- May not reflect current market conditions or changes in protocols
