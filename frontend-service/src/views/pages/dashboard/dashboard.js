@@ -112,9 +112,9 @@ const Dashboard = () => {
                                 <th>Transaction ID</th>
                                 <th>MEV Type</th>
                                 <th>Trade Amount</th>
-                                <th>Swap Amount</th>
-                                <th>Profit</th>
-                                <th>Loss</th>
+                                <th>Expected Amount</th>
+                                <th>MEV Profit(%)</th>
+                                <th>Original Transction Loss(%)</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -125,9 +125,9 @@ const Dashboard = () => {
                                     <td>{log.trans_id}</td>
                                     <td>{log.mev_type}</td>
                                     <td>{log.trade_amnt}</td>
-                                    <td>{log.swap_amnt}</td>
-                                    <td className="profit">{log.profit}</td>
-                                    <td className="loss">{log.loss}</td>
+                                    <td>{log.expected_amnt}</td>
+                                    <td className="profit">{log.profit_percentage}</td>
+                                    <td className="loss">{log.original_loss_percentage}</td>
                                 </tr>
                             ))}
                         </tbody>

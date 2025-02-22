@@ -107,9 +107,9 @@ class CollectionBehaviour(ShutterAnalyticsBaseBehaviour):
                 "trans_id": log_parts["trans_id"],
                 "mev_type": log_parts["mev_type"],
                 "trade_amnt": float(log_parts["trade_amnt"]),
-                "swap_amnt": float(log_parts["swap_amnt"]),
-                "profit": float(log_parts["profit"]),
-                "loss": float(log_parts["loss"])
+                "expected_amnt": float(log_parts["expected_amnt"]),
+                "profit_percentage": float(log_parts["profit_percentage"]),
+                "original_loss_percentage": float(log_parts["original_loss_percentage"])
             }
         except Exception as e:
             self.context.logger.error(f"Failed to parse log entry: {log_entry}. Error: {e}")
