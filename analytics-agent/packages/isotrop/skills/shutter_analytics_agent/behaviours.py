@@ -108,6 +108,7 @@ class CollectionBehaviour(ShutterAnalyticsBaseBehaviour):
                 "mev_type": log_parts["mev_type"],
                 "trade_amnt": float(log_parts["trade_amnt"]),
                 "expected_amnt": float(log_parts["expected_amnt"]),
+                "actual_amnt": float(log_parts["actual_amnt"]),
                 "profit_percentage": float(log_parts["profit_percentage"]),
                 "original_loss_percentage": float(log_parts["original_loss_percentage"])
             }

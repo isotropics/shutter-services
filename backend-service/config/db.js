@@ -25,6 +25,7 @@ const createTables = async () => {
       mev_type TEXT NOT NULL,
       trade_amnt DECIMAL(10,2) NOT NULL,
       expected_amnt DECIMAL(10,2) NOT NULL,
+      actual_amnt DECIMAL(10,2) NOT NULL,
       profit_percentage DECIMAL(10,6) NOT NULL,
       original_loss_percentage DECIMAL(10,6) DEFAULT 0.000000
     );`,
