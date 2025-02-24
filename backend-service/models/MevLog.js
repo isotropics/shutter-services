@@ -3,7 +3,7 @@ module.exports = {
     const { date, time, trans_id, mev_type, trade_amnt, expected_amnt,actual_amnt, profit_percentage, original_loss_percentage } = logData;
     return pool.query(
       `INSERT INTO mev_logs (date, time, trans_id, mev_type, trade_amnt, expected_amnt,actual_amnt, profit_percentage, original_loss_percentage) 
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING *`,
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9) RETURNING *`,
       [date, time, trans_id, mev_type, trade_amnt, expected_amnt,actual_amnt, profit_percentage, original_loss_percentage]
     );
   },

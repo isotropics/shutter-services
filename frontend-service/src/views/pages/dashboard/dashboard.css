@@ -6,7 +6,7 @@ body {
 
 /* Navbar Styling */
 .custom-navbar {
-    background: linear-gradient(90deg, #ff416c, #ff4b2b);
+    background: linear-gradient(70deg, #0a0359, #8f3fb4);
     padding: 15px;
     color: white;
 }
@@ -16,14 +16,14 @@ body {
     color: #ffffff;
 }
 .account-dropdown {
-    background-color: #ff9800;
+    background-color: #3f3f3c;
     border: none;
     padding: 8px 15px;
     font-weight: bold;
     transition: background 0.3s;
 }
 .account-dropdown:hover {
-    background-color: #ff5722;
+    background-color: #151211;
 }
 
 /* Dashboard Container */
@@ -61,6 +61,7 @@ body {
     display: flex;
     justify-content: space-around;
     margin-bottom: 20px;
+    margin-top: 20px
 }
 .stat-card {
     background: linear-gradient(135deg, #2193b0, #6dd5ed);
