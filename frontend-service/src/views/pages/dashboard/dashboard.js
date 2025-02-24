@@ -1,22 +1,36 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Container, Navbar, Nav, Pagination, Dropdown, Card } from 'react-bootstrap';
+import { Table, Button, Container, Navbar, Nav, Pagination, Dropdown, Card, Form } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, LineElement, PointElement, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './Dashboard.css'; 
-import { FaSync, FaDatabase, FaUser, FaTachometerAlt } from 'react-icons/fa';
+import { format } from 'date-fns';
+import { FaSync, FaDatabase, FaUser, FaTachometerAlt, FaChartBar } from 'react-icons/fa';
+import DatePicker from 'react-datepicker'; // Import DatePicker
+import 'react-datepicker/dist/react-datepicker.css'; // Include CSS for DatePicker
+import { Line } from 'react-chartjs-2';
+import { motion } from 'framer-motion';
+
+ChartJS.register(LineElement, PointElement, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const Dashboard = () => {
-    // State to store logs and current page
+    // State to store logs, current page, and date range
     const [logs, setLogs] = useState([]);
+    const [filteredLogs, setFilteredLogs] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [fromDate, setFromDate] = useState(null); // Use Date object instead of string
+    const [toDate, setToDate] = useState(null); // Use Date object instead of string
+    const [showGraph, setShowGraph] = useState(false);
+    const [selectedGraph, setSelectedGraph] = useState('All');
     const recordsPerPage = 20;
     const navigate = useNavigate();
     const authToken = import.meta.env.VITE_API_TOKEN;
 
-    // Fetch logs when the component mounts or when the current page changes
+    // Fetch logs when the component mounts or when the current page or date range changes
     useEffect(() => {
         fetchLogs();
-    }, [currentPage]);
+    }, [currentPage, fromDate, toDate]);
 
     // Function to fetch logs from API
     const fetchLogs = async () => {
@@ -38,9 +52,33 @@ const Dashboard = () => {
             if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
             const data = await response.json();
             setLogs(data);
+            filterLogsByDate(data); // Call filter function after fetching the logs
         } catch (error) {
             console.error('Error fetching logs:', error);
         }
+    };
+
+    // Function to filter logs based on the selected date range
+    const filterLogsByDate = (logs) => {
+        if (!fromDate || !toDate) {
+            setFilteredLogs(logs);  // No date filter, show all logs
+            return;
+        }
+
+        const filtered = logs.filter(log => {
+            const logDate = new Date(log.date);
+            const startDate = new Date(fromDate);
+            const endDate = new Date(toDate);
+
+            // Reset the time of both dates to 00:00:00 for accurate comparison
+            startDate.setHours(0, 0, 0, 0);
+            endDate.setHours(23, 59, 59, 999);
+
+            // If fromDate and toDate are the same, we check if the log date matches exactly
+            return logDate >= startDate && logDate <= endDate;
+        });
+
+        setFilteredLogs(filtered); // Set filtered logs
     };
 
     // Function to handle user sign-out
@@ -49,10 +87,65 @@ const Dashboard = () => {
         navigate('/login');
     };
 
-    // Pagination logic
+    // Pagination logic for filtered data
     const indexOfLastRecord = currentPage * recordsPerPage;
     const indexOfFirstRecord = indexOfLastRecord - recordsPerPage;
-    const currentRecords = logs.slice(indexOfFirstRecord, indexOfLastRecord);
+    const currentRecords = filteredLogs.slice(indexOfFirstRecord, indexOfLastRecord);
+
+    const toggleGraph = () => setShowGraph(!showGraph);
+
+    const chartOptions = {
+        responsive: true,
+        plugins: {
+            legend: { position: 'top' },
+        },
+    };
+
+    const lineChartData = {
+        labels: currentRecords.map(log => format(new Date(log.date), 'yyyy-MM-dd')),
+        datasets: [
+            {
+                label: 'Trade Amount',
+                data: currentRecords.map(log => log.trade_amnt),
+                borderColor: 'rgba(75, 192, 192, 1)',
+                backgroundColor: 'rgba(231, 241, 241, 0.2)',
+                fill: true,
+            },
+            {
+                label: 'Expected Amount',
+                data: currentRecords.map(log => log.expected_amnt),
+                borderColor: 'rgba(153, 102, 255, 1)',
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                fill: true,
+            },
+            {
+                label: 'Actual Amount',
+                data: currentRecords.map(log => log.actual_amnt),
+                borderColor: 'rgba(54, 162, 235, 1)',
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                fill: true,
+            }
+        ]
+    };
+
+    const dataKeyMap = {
+        "Trade Amount": "trade_amnt",
+        "Expected Amount": "expected_amnt",
+        "Actual Amount": "actual_amnt"
+    };
+    
+    const selectedDataKey = dataKeyMap[selectedGraph] || "trade_amnt"; // Default fallback
+    
+    const barChartData = {
+        labels: currentRecords.map(log => format(new Date(log.date), 'yyyy-MM-dd')),
+        datasets: [
+            {
+                label: selectedGraph,
+                data: currentRecords.map(log => log[selectedDataKey] || 0), // Ensure no undefined values
+                backgroundColor: 'rgba(75, 192, 192, 0.6)'
+            }
+        ]
+    };
 
     return (
         <>
@@ -78,26 +171,74 @@ const Dashboard = () => {
                 <div className="header-section">
                     <h2 className="dashboard-title"><FaDatabase /> MEV Details</h2>
                     <Button className="refresh-btn" onClick={fetchLogs}><FaSync /> Refresh Data</Button>
+                    <Button className="graph-btn" onClick={toggleGraph}><FaChartBar /> Trade Statistics</Button>
                 </div>
 
+                {showGraph && (
+                    <motion.div className="graph-container white-background" initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 5, y: -1 }}
+                    transition={{ duration: 0.7 }}
+                    style={{ background: '#f9f9f9', padding: '25px', borderRadius: '50px', paddingBottom: '20px' }}
+                >
+                        <Dropdown onSelect={(eventKey) => setSelectedGraph(eventKey)}>
+                            <Dropdown.Toggle variant="primary">
+                                Select Graph ({selectedGraph})
+                            </Dropdown.Toggle>
+                            <Dropdown.Menu>
+                                <Dropdown.Item eventKey="All">All</Dropdown.Item>
+                                <Dropdown.Item eventKey="Trade Amount">Trade Amount</Dropdown.Item>
+                                <Dropdown.Item eventKey="Expected Amount">Expected Amount</Dropdown.Item>
+                                <Dropdown.Item eventKey="Actual Amount">Actual Amount</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                        {selectedGraph === 'All' ? <Line data={lineChartData} options={chartOptions} /> : <Bar data={barChartData} options={chartOptions} />}
+                    </motion.div>
+                )}
+
+                {/* Date Picker Section */}
+                <div className="date-filter-container d-flex justify-content-center mt-3">
+                    <Form className="d-flex align-items-end gap-3">
+                        <Form.Group controlId="fromDate">
+                            <Form.Label>From Date</Form.Label>
+                            <DatePicker
+                                selected={fromDate}
+                                onChange={date => setFromDate(date)}
+                                dateFormat="yyyy-MM-dd"
+                                placeholderText="From Date"
+                                className="form-control date-picker-input"
+                            />
+                        </Form.Group>
+                        <Form.Group controlId="toDate">
+                            <Form.Label>To Date</Form.Label>
+                            <DatePicker
+                                selected={toDate}
+                                onChange={date => setToDate(date)}
+                                dateFormat="yyyy-MM-dd"
+                                placeholderText="To Date"
+                                className="form-control date-picker-input"
+                            />
+                        </Form.Group>
+                    </Form>
+                </div>
+                
                 {/* Statistics Cards */}
                 <div className="card-container">
                     <Card className="stat-card">
                         <Card.Body>
                             <h5>Total Transactions</h5>
-                            <p>{logs.length}</p>
+                            <p>{filteredLogs.length}</p>
                         </Card.Body>
                     </Card>
                     <Card className="stat-card">
                         <Card.Body>
-                            <h5>Profitable Trades</h5>
-                            <p>{logs.filter(log => log.profit > 0).length}</p>
+                            <h5>Total Profit</h5>
+                            <p>{filteredLogs.filter(log => log.profit_percentage > 0).length}</p>
                         </Card.Body>
                     </Card>
                     <Card className="stat-card">
                         <Card.Body>
-                            <h5>Loss Trades</h5>
-                            <p>{logs.filter(log => log.loss > 0).length}</p>
+                            <h5>Total Loss</h5>
+                            <p>{filteredLogs.filter(log => log.original_loss_percentage > 0).length}</p>
                         </Card.Body>
                     </Card>
                 </div>
@@ -108,28 +249,26 @@ const Dashboard = () => {
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>Time</th>
                                 <th>Transaction ID</th>
                                 <th>MEV Type</th>
                                 <th>Trade Amount</th>
                                 <th>Expected Amount</th>
                                 <th>Actual Amount</th>
                                 <th>MEV Profit(%)</th>
-                                <th>Original Transction Loss(%)</th>
+                                <th>Original Tx Loss(%)</th>
                             </tr>
                         </thead>
                         <tbody>
                             {currentRecords.map((log, index) => (
                                 <tr key={index} className="table-row">
-                                    <td>{log.date}</td>
-                                    <td>{log.time}</td>
-                                    <td>{log.trans_id}</td>
+                                    <td>{format(new Date(log.date), 'yyyy-MM-dd')}</td>
+                                    <td>{log.trans_id.slice(0, 20)}...</td>
                                     <td>{log.mev_type}</td>
                                     <td>{log.trade_amnt}</td>
                                     <td>{log.expected_amnt}</td>
                                     <td>{log.actual_amnt}</td>
-                                    <td className="profit">{log.profit_percentage}</td>
-                                    <td className="loss">{log.original_loss_percentage}</td>
+                                    <td className="profit">{log.profit_percentage.slice(0, 4)}</td>
+                                    <td className="loss">{log.original_loss_percentage.slice(0, 4)}</td>
                                 </tr>
                             ))}
                         </tbody>
