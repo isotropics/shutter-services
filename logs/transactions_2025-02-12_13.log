@@ -1,0 +1,4 @@
+date=2025-02-12,time=13:00:47,trans_id=0xf3b2a6d9cc,mev_type=front_run,trade_amnt=201.54,expected_amnt=195.49,actual_amnt=185.72,profit_percentage=1.2%,original_loss_percentage=0.3%
+date=2025-02-12,time=13:15:47,trans_id=0xf3b2a6d9cc,mev_type=front_run,trade_amnt=201.54,expected_amnt=195.49,actual_amnt=185.72,profit_percentage=1.2%,original_loss_percentage=0.35%
+date=2025-02-12,time=13:30:47,trans_id=0xf3b2a6d9cc,mev_type=front_run,trade_amnt=201.54,expected_amnt=195.49,actual_amnt=185.72,profit_percentage=1.2%,original_loss_percentage=0.4%
+date=2025-02-12,time=13:45:47,trans_id=0xf3b2a6d9cc,mev_type=front_run,trade_amnt=201.54,expected_amnt=195.49,actual_amnt=185.72,profit_percentage=1.2%,original_loss_percentage=0.45%
