@@ -19,6 +19,7 @@ const Dashboard = () => {
     const [logs, setLogs] = useState([]);
     const [filteredLogs, setFilteredLogs] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
     const [fromDate, setFromDate] = useState(null); // Use Date object instead of string
     const [toDate, setToDate] = useState(null); // Use Date object instead of string
     const [showGraph, setShowGraph] = useState(false);
@@ -26,6 +27,7 @@ const Dashboard = () => {
     const recordsPerPage = 20;
     const navigate = useNavigate();
     const authToken = import.meta.env.VITE_API_TOKEN;
+    const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
     // Fetch logs when the component mounts or when the current page or date range changes
     useEffect(() => {
@@ -42,7 +44,7 @@ const Dashboard = () => {
         }
 
         try {
-            const response = await fetch('http://localhost:5000/logs', {
+            const response = await fetch(`${API_BASE_URL}/logs`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${authToken}`,
@@ -56,6 +58,7 @@ const Dashboard = () => {
         } catch (error) {
             console.error('Error fetching logs:', error);
         }
+   
     };
 
     // Function to filter logs based on the selected date range
@@ -80,6 +83,10 @@ const Dashboard = () => {
 
         setFilteredLogs(filtered); // Set filtered logs
     };
+
+    const handleRefresh = () => {
+        setCurrentPage(1);// This will trigger useEffect and fetch logs for page 1
+      };
 
     // Function to handle user sign-out
     const handleSignOut = () => {
@@ -170,7 +177,7 @@ const Dashboard = () => {
             <Container className="dashboard-container">
                 <div className="header-section">
                     <h2 className="dashboard-title"><FaDatabase /> MEV Details</h2>
-                    <Button className="refresh-btn" onClick={fetchLogs}><FaSync /> Refresh Data</Button>
+                    <Button className="refresh-btn" onClick={handleRefresh}><FaSync /> Refresh Data</Button>
                     <Button className="graph-btn" onClick={toggleGraph}><FaChartBar /> Trade Statistics</Button>
                 </div>
 
@@ -233,23 +240,26 @@ const Dashboard = () => {
                     <Card.Body>
                         <h5>Total Trade Amount</h5>
                         <p>
-                            {filteredLogs.reduce((sum, log) => sum + (parseFloat(log.trade_amnt) || 0), 0)}
+                            {filteredLogs.reduce((sum, log) => sum + (parseFloat(log.trade_amnt) || 0), 0).toFixed(2)}
                         </p>
                     </Card.Body>
                     </Card>
                     <Card className="stat-card">
-                        <Card.Body>
-                            <h5>Total Expected Amount</h5>
-                            <p>
-                                {filteredLogs.reduce((sum, log) => sum + (parseFloat(log.expected_amnt) || 0), 0)}
-                            </p>
-                        </Card.Body>
-                    </Card>
+                    <Card.Body>
+                        <h5>Total Expected Amount</h5>
+                        <p>
+                            {filteredLogs
+                                .reduce((sum, log) => sum + (parseFloat(log.expected_amnt) || 0), 0)
+                                .toFixed(2)}
+                        </p>
+                    </Card.Body>
+                        </Card>
+
                     <Card className="stat-card">
                         <Card.Body>
                             <h5>Total Actual Amount</h5>
                             <p>
-                                {filteredLogs.reduce((sum, log) => sum + (parseFloat(log.actual_amnt) || 0), 0)}
+                                {filteredLogs.reduce((sum, log) => sum + (parseFloat(log.actual_amnt) || 0), 0).toFixed(2)}
                             </p>
                         </Card.Body>
                     </Card>
@@ -290,6 +300,7 @@ const Dashboard = () => {
                         <thead>
                             <tr>
                                 <th>Date</th>
+                                <th>Time</th>
                                 <th>Transaction ID</th>
                                 <th>MEV Type</th>
                                 <th>Trade Amount</th>
@@ -303,6 +314,7 @@ const Dashboard = () => {
                             {currentRecords.map((log, index) => (
                                 <tr key={index} className="table-row">
                                     <td>{format(new Date(log.date), 'yyyy-MM-dd')}</td>
+                                    <td>{log.time}</td>
                                     <td>{log.trans_id.slice(0, 20)}...</td>
                                     <td>{log.mev_type}</td>
                                     <td>{log.trade_amnt}</td>
