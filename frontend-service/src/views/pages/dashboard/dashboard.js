@@ -107,8 +107,8 @@ const Dashboard = () => {
             {
                 label: 'Trade Amount',
                 data: currentRecords.map(log => log.trade_amnt),
-                borderColor: 'rgba(75, 192, 192, 1)',
-                backgroundColor: 'rgba(231, 241, 241, 0.2)',
+                borderColor: 'rgb(255, 116, 52)',
+                backgroundColor: 'rgba(184, 9, 9, 0.2)',
                 fill: true,
             },
             {
@@ -121,8 +121,8 @@ const Dashboard = () => {
             {
                 label: 'Actual Amount',
                 data: currentRecords.map(log => log.actual_amnt),
-                borderColor: 'rgba(54, 162, 235, 1)',
-                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgb(26, 126, 192)',
+                backgroundColor: 'rgba(5, 47, 75, 0.2)',
                 fill: true,
             }
         ]
@@ -199,7 +199,7 @@ const Dashboard = () => {
                 <div className="date-filter-container d-flex justify-content-center mt-3">
                     <Form className="d-flex align-items-end gap-3">
                         <Form.Group controlId="fromDate">
-                            <Form.Label>From Date</Form.Label>
+                            <Form.Label>From Date : </Form.Label>
                             <DatePicker
                                 selected={fromDate}
                                 onChange={date => setFromDate(date)}
@@ -209,7 +209,7 @@ const Dashboard = () => {
                             />
                         </Form.Group>
                         <Form.Group controlId="toDate">
-                            <Form.Label>To Date</Form.Label>
+                            <Form.Label>To Date :</Form.Label>
                             <DatePicker
                                 selected={toDate}
                                 onChange={date => setToDate(date)}
@@ -230,17 +230,58 @@ const Dashboard = () => {
                         </Card.Body>
                     </Card>
                     <Card className="stat-card">
+                    <Card.Body>
+                        <h5>Total Trade Amount</h5>
+                        <p>
+                            {filteredLogs.reduce((sum, log) => sum + (parseFloat(log.trade_amnt) || 0), 0)}
+                        </p>
+                    </Card.Body>
+                    </Card>
+                    <Card className="stat-card">
                         <Card.Body>
-                            <h5>Total Profit</h5>
-                            <p>{filteredLogs.filter(log => log.profit_percentage > 0).length}</p>
+                            <h5>Total Expected Amount</h5>
+                            <p>
+                                {filteredLogs.reduce((sum, log) => sum + (parseFloat(log.expected_amnt) || 0), 0)}
+                            </p>
                         </Card.Body>
                     </Card>
                     <Card className="stat-card">
                         <Card.Body>
-                            <h5>Total Loss</h5>
-                            <p>{filteredLogs.filter(log => log.original_loss_percentage > 0).length}</p>
+                            <h5>Total Actual Amount</h5>
+                            <p>
+                                {filteredLogs.reduce((sum, log) => sum + (parseFloat(log.actual_amnt) || 0), 0)}
+                            </p>
                         </Card.Body>
                     </Card>
+                    <Card className="stat-card">
+                    <Card.Body>
+                        <h5>Average Profit</h5>
+                        <p>
+                            {(() => {
+                                const totalProfit = filteredLogs.reduce((sum, log) => 
+                                    sum + (log.profit_percentage > 0 ? parseFloat(log.profit_percentage) || 0 : 0), 0
+                                );
+                                const profitCount = filteredLogs.filter(log => log.profit_percentage > 0).length;
+                                return profitCount > 0 ? (totalProfit / profitCount).toFixed(2) : 0;
+                            })()}
+                        </p>
+                    </Card.Body>
+                </Card>
+                <Card className="stat-card">
+                    <Card.Body>
+                        <h5>Average Loss</h5>
+                        <p>
+                            {(() => {
+                                const totalLoss = filteredLogs.reduce((sum, log) => 
+                                    sum + (log.original_loss_percentage > 0 ? parseFloat(log.original_loss_percentage) || 0 : 0), 0
+                                );
+                                const lossCount = filteredLogs.filter(log => log.original_loss_percentage > 0).length;
+                                return lossCount > 0 ? (totalLoss / lossCount).toFixed(2) : 0;
+                            })()}
+                        </p>
+                    </Card.Body>
+                </Card>
+
                 </div>
 
                 {/* Logs Table */}

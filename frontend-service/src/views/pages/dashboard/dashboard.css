@@ -1,7 +1,7 @@
 /* Dark Theme Background */
 body {
     background-color: #1e1e2f;
-    color: #e0e0e0;
+    color: #ffefa5;
 }
 
 /* Navbar Styling */
@@ -20,7 +20,7 @@ body {
     border: none;
     padding: 8px 15px;
     font-weight: bold;
-    transition: background 0.3s;
+    transition: background 0.5s;
 }
 .account-dropdown:hover {
     background-color: #151211;
@@ -29,7 +29,7 @@ body {
 /* Dashboard Container */
 .dashboard-container {
     margin-top: 30px;
-    background: #2c2c3c;
+    background: #1f1f33;
     padding: 20px;
     border-radius: 10px;
     box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.1);
@@ -43,7 +43,8 @@ body {
     margin-bottom: 20px;
 }
 .dashboard-title {
-    color: #ff416c;
+    color: #d412e6;
+    text-shadow: #e1b2ec;
 }
 .refresh-btn {
     background-color: #28a745;
@@ -61,17 +62,34 @@ body {
     display: flex;
     justify-content: space-around;
     margin-bottom: 20px;
-    margin-top: 20px
+    margin-top: 20px;
 }
 .stat-card {
-    background: linear-gradient(135deg, #2193b0, #6dd5ed);
-    color: white;
+    background: linear-gradient(135deg, #540e66, #c636f1);
     text-align: center;
     padding: 15px;
-    border-radius: 10px;
-    width: 30%;
+    border-radius: 25px; /* Reduced to make it more rectangular */
+    width: 50%; /* Adjust width to fit container */
+    max-width: 300px; /* Limit max width for better layout */
     transition: transform 0.3s, box-shadow 0.3s;
+    display: inline-block; /* Ensures proper spacing in a row */
+    margin-left: 5px;
+    margin-right: 5px;
 }
+
+.stat-card h5 {
+    color: #f7ec8a;
+    font-size: 19px; /* Smaller heading */
+    margin-bottom: 10px;
+}
+
+.stat-card p {
+    font-size: 17px; /* Smaller text */
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    color: whitesmoke;
+}
+
 .stat-card:hover {
     transform: scale(1.08);
     box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
