@@ -58,48 +58,101 @@ body {
 }
 
 /* Stats Cards */
+/* Card container */
 .card-container {
     display: flex;
-    justify-content: space-around;
-    margin-bottom: 20px;
-    margin-top: 20px;
-}
-.stat-card {
-    background: linear-gradient(135deg, #540e66, #c636f1);
-    text-align: center;
-    padding: 15px;
-    border-radius: 25px; /* Reduced to make it more rectangular */
-    width: 50%; /* Adjust width to fit container */
-    max-width: 300px; /* Limit max width for better layout */
-    transition: transform 0.3s, box-shadow 0.3s;
-    display: inline-block; /* Ensures proper spacing in a row */
-    margin-left: 5px;
-    margin-right: 5px;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
+/* Base Card Styling */
+.stat-card {
+    position: relative;
+    width: 165px;
+    background: linear-gradient(135deg, #540e66, #c636f1);    border-radius: 15px;
+    padding: 5px;
+    box-shadow: 2px 2px 10px rgba(233, 214, 131, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.5s ease;
+    overflow: hidden;
+}
+
+/* Hover Effect */
+.stat-card:hover {
+    transform: scale(1.08);
+    box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(135deg, #a8c0ff 0%, #3f2b96 100%);
+    color: white;
+}
+
+/* Text Styling */
 .stat-card h5 {
-    color: #f7ec8a;
-    font-size: 19px; /* Smaller heading */
+    font-size: 1.1rem;
+    font-weight: bold;
     margin-bottom: 10px;
+    transition: color 0.3s ease;
+    color: rgb(255, 242, 168);
 }
 
 .stat-card p {
-    font-size: 17px; /* Smaller text */
-    font-family: Arial, Helvetica, sans-serif;
-    margin: 0;
-    color: whitesmoke;
+    font-size: 1rem;
+    font-weight: bold;
+    transition: color 0.3s ease;
+    color: white;
 }
 
-.stat-card:hover {
-    transform: scale(1.08);
-    box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+/* Change text color on hover */
+.stat-card:hover h5,
+.stat-card:hover p {
+    color: #fff;
 }
 
-/* Table Hover Effects */
-.mev-table tbody tr:hover {
-    background-color: rgba(255, 75, 43, 0.2) !important;
-    cursor: pointer;
+/* Hover Details Styling */
+.hover-details {
+    position: absolute;
+    bottom: -40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90%;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    text-align: center;
+    padding: 8px;
+    border-radius: 5px;
+    font-size: 12px;
+    opacity: 0;
+    transition: bottom 0.4s ease, opacity 0.4s ease;
 }
+
+/* Show details with a slide-up effect */
+.stat-card:hover .hover-details {
+    bottom: 10px;
+    opacity: 1;
+}
+
+/* Glassmorphism Effect */
+.stat-card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    z-index: -1;
+    transition: opacity 0.5s ease-in-out;
+    opacity: 0;
+}
+
+/* Glow Effect */
+.stat-card:hover::before {
+    opacity: 1;
+}
+
+
 
 /* Pagination */
 .pagination-container {

@@ -19,7 +19,6 @@ const Dashboard = () => {
     const [logs, setLogs] = useState([]);
     const [filteredLogs, setFilteredLogs] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
     const [fromDate, setFromDate] = useState(null); // Use Date object instead of string
     const [toDate, setToDate] = useState(null); // Use Date object instead of string
     const [showGraph, setShowGraph] = useState(false);
@@ -85,6 +84,7 @@ const Dashboard = () => {
     };
 
     const handleRefresh = () => {
+        fetchLogs();
         setCurrentPage(1);// This will trigger useEffect and fetch logs for page 1
       };
 
@@ -133,6 +133,27 @@ const Dashboard = () => {
                 fill: true,
             }
         ]
+    };
+
+    const lineChartData_profit_loss = {
+        labels: currentRecords.map(log => format(new Date(log.date), 'yyyy-MM-dd')),
+        datasets: [
+            {
+                label: ' MEV Profit(%)',
+                data: currentRecords.map(log => log.profit_percentage),
+                borderColor: 'rgb(255, 116, 52)',
+                backgroundColor: 'rgba(184, 9, 9, 0.2)',
+                fill: true,
+            },
+            {
+                label: 'Original Tx Loss(%)',
+                data: currentRecords.map(log => (((log.expected_amnt-log.actual_amnt)/log.expected_amnt)*100).toFixed(2)),
+                borderColor: 'rgba(153, 102, 255, 1)',
+                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                fill: true,
+            },
+        ]
+        
     };
 
     const dataKeyMap = {
@@ -186,7 +207,7 @@ const Dashboard = () => {
                     animate={{ opacity: 5, y: -1 }}
                     transition={{ duration: 0.7 }}
                     style={{ background: '#f9f9f9', padding: '25px', borderRadius: '50px', paddingBottom: '20px' }}
-                >
+                    >
                         <Dropdown onSelect={(eventKey) => setSelectedGraph(eventKey)}>
                             <Dropdown.Toggle variant="primary">
                                 Select Graph ({selectedGraph})
@@ -196,9 +217,10 @@ const Dashboard = () => {
                                 <Dropdown.Item eventKey="Trade Amount">Trade Amount</Dropdown.Item>
                                 <Dropdown.Item eventKey="Expected Amount">Expected Amount</Dropdown.Item>
                                 <Dropdown.Item eventKey="Actual Amount">Actual Amount</Dropdown.Item>
+                                <Dropdown.Item eventKey="Profit/Loss">MEV Profit / Loss</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
-                        {selectedGraph === 'All' ? <Line data={lineChartData} options={chartOptions} /> : <Bar data={barChartData} options={chartOptions} />}
+                        {selectedGraph === 'All' ? (<Line data={lineChartData} options={chartOptions} />) : selectedGraph === 'Profit/Loss' ? (<Line data={lineChartData_profit_loss} options={chartOptions} />) : (<Bar data={barChartData} options={chartOptions} />)}
                     </motion.div>
                 )}
 
@@ -230,69 +252,96 @@ const Dashboard = () => {
                 
                 {/* Statistics Cards */}
                 <div className="card-container">
-                    <Card className="stat-card">
+                    <Card className="stat-card hover-card">
                         <Card.Body>
                             <h5>Total Transactions</h5>
                             <p>{filteredLogs.length}</p>
+                            <div className="hover-details">
+                                This represents the total number of transactions recorded.
+                            </div>
                         </Card.Body>
                     </Card>
-                    <Card className="stat-card">
-                    <Card.Body>
-                        <h5>Total Trade Amount</h5>
-                        <p>
-                            {filteredLogs.reduce((sum, log) => sum + (parseFloat(log.trade_amnt) || 0), 0).toFixed(2)}
-                        </p>
-                    </Card.Body>
-                    </Card>
-                    <Card className="stat-card">
-                    <Card.Body>
-                        <h5>Total Expected Amount</h5>
-                        <p>
-                            {filteredLogs
-                                .reduce((sum, log) => sum + (parseFloat(log.expected_amnt) || 0), 0)
-                                .toFixed(2)}
-                        </p>
-                    </Card.Body>
-                        </Card>
 
-                    <Card className="stat-card">
+                    <Card className="stat-card hover-card">
+                        <Card.Body>
+                            <h5>Total Trade Amount</h5>
+                            <p>
+                                ${filteredLogs
+                                    .reduce((sum, log) => sum + (parseFloat(log.trade_amnt) || 0), 0)
+                                    .toFixed(2)
+                                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+                            </p>
+                            <div className="hover-details">
+                                This represents the total sum of trade amounts for transactions.
+                            </div>
+                        </Card.Body>
+                    </Card>
+
+                    <Card className="stat-card hover-card">
+                        <Card.Body>
+                            <h5>Total Expected Amount</h5>
+                            <p>
+                                ${filteredLogs
+                                    .reduce((sum, log) => sum + (parseFloat(log.expected_amnt) || 0), 0)
+                                    .toFixed(2)
+                                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}  
+                            </p>
+                            <div className="hover-details">
+                                    This represents the total sum of expected amounts for transactions.
+                            </div>
+                        </Card.Body>
+                    </Card>
+
+                    <Card className="stat-card hover-card">
                         <Card.Body>
                             <h5>Total Actual Amount</h5>
                             <p>
-                                {filteredLogs.reduce((sum, log) => sum + (parseFloat(log.actual_amnt) || 0), 0).toFixed(2)}
+                                ${filteredLogs.reduce((sum, log) => sum + (parseFloat(log.actual_amnt) || 0), 0).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
                             </p>
+                            <div className="hover-details">
+                                This represents the total sum of actual amounts for transactions.
+                            </div>
                         </Card.Body>
                     </Card>
-                    <Card className="stat-card">
-                    <Card.Body>
-                        <h5>Average Profit</h5>
-                        <p>
-                            {(() => {
-                                const totalProfit = filteredLogs.reduce((sum, log) => 
-                                    sum + (log.profit_percentage > 0 ? parseFloat(log.profit_percentage) || 0 : 0), 0
-                                );
-                                const profitCount = filteredLogs.filter(log => log.profit_percentage > 0).length;
-                                return profitCount > 0 ? (totalProfit / profitCount).toFixed(2) : 0;
-                            })()}
-                        </p>
-                    </Card.Body>
-                </Card>
-                <Card className="stat-card">
-                    <Card.Body>
-                        <h5>Average Loss</h5>
-                        <p>
-                            {(() => {
-                                const totalLoss = filteredLogs.reduce((sum, log) => 
-                                    sum + (log.original_loss_percentage > 0 ? parseFloat(log.original_loss_percentage) || 0 : 0), 0
-                                );
-                                const lossCount = filteredLogs.filter(log => log.original_loss_percentage > 0).length;
-                                return lossCount > 0 ? (totalLoss / lossCount).toFixed(2) : 0;
-                            })()}
-                        </p>
-                    </Card.Body>
-                </Card>
 
+                    <Card className="stat-card hover-card">
+                        <Card.Body>
+                            <h5>Average Profit (%)</h5>
+                            <p>
+                                {(() => {
+                                    const totalProfit = filteredLogs.reduce((sum, log) =>
+                                        sum + (log.profit_percentage > 0 ? parseFloat(log.profit_percentage) || 0 : 0), 0
+                                    );
+                                    const profitCount = filteredLogs.filter(log => log.profit_percentage > 0).length;
+                                    return profitCount > 0 ? (totalProfit / profitCount).toFixed(2) : 0;
+                                })()}%
+                            </p>
+                            <div className="hover-details">
+                                This represents average of profit across all transactions in %.
+                            </div>
+                        </Card.Body>
+                    </Card>
+
+                    <Card className="stat-card hover-card">
+                        <Card.Body>
+                            <h5>Average Loss (%)</h5>
+                            <p>
+                                {(
+                                    (
+                                        filteredLogs.reduce((sum, log) => sum + (parseFloat(log.expected_amnt) || 0), 0) -
+                                        filteredLogs.reduce((sum, log) => sum + (parseFloat(log.actual_amnt) || 0), 0)
+                                    ) /
+                                    filteredLogs.reduce((sum, log) => sum + (parseFloat(log.expected_amnt) || 0), 0)
+                                * 100).toFixed(2)}%
+                            </p>
+                            <div className="hover-details">
+                                This represents average loss of transactions in % ((expected_amt-actual_amt/expected_amt)*100).
+                            </div>
+                        </Card.Body>
+                    </Card>
                 </div>
+
+
 
                 {/* Logs Table */}
                 <div className="table-responsive">
@@ -321,7 +370,7 @@ const Dashboard = () => {
                                     <td>{log.expected_amnt}</td>
                                     <td>{log.actual_amnt}</td>
                                     <td className="profit">{log.profit_percentage.slice(0, 4)}</td>
-                                    <td className="loss">{log.original_loss_percentage.slice(0, 4)}</td>
+                                    <td className="loss">{(((log.expected_amnt-log.actual_amnt)/log.expected_amnt)*100).toFixed(2)}</td>
                                 </tr>
                             ))}
                         </tbody>
